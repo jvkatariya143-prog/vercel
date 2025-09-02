@@ -96,7 +96,7 @@ async function getChunkedTests() {
   const baseSha = process.env.TURBO_BASE_SHA || process.env.GITHUB_BASE_REF;
   const affectedPackages = baseSha ? await getAffectedPackages(baseSha) : [];
 
-  console.log(
+  console.error(
     `Testing strategy: ${affectedPackages.length > 0 ? 'affected packages only' : 'all packages'}`
   );
 

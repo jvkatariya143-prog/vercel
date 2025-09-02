@@ -9,8 +9,9 @@ const fs = require('fs');
  * @returns {Promise<string[]>} Array of affected package names
  */
 async function getAffectedPackages(baseSha) {
+  console.error(`DEBUG: getAffectedPackages called with baseSha: ${baseSha}`);
   if (!baseSha) {
-    console.log('No base SHA provided, testing all packages');
+    console.error('No base SHA provided, testing all packages');
     return [];
   }
 
@@ -32,7 +33,7 @@ async function getAffectedPackages(baseSha) {
     const data = JSON.parse(response.toString('utf8'));
 
     if (!data.data || !data.data.affectedPackages) {
-      console.log('No affected packages data found, testing all packages');
+      console.error('No affected packages data found, testing all packages');
       return [];
     }
 
@@ -60,7 +61,7 @@ async function getAffectedPackages(baseSha) {
     let finalPackages = affectedPackages;
 
     if (shouldRunAllE2E) {
-      console.log(
+      console.error(
         'Infrastructure changes detected - including all e2e test packages'
       );
       // Get all packages with e2e tests
@@ -70,14 +71,14 @@ async function getAffectedPackages(baseSha) {
       ];
     }
 
-    console.log(
+    console.error(
       `Found ${finalPackages.length} affected packages:`,
       finalPackages
     );
     return finalPackages;
   } catch (error) {
     console.warn('Error getting affected packages:', error.message);
-    console.log('Falling back to testing all packages');
+    console.error('Falling back to testing all packages');
     return [];
   }
 }
@@ -179,7 +180,7 @@ async function getAllPackagesWithE2ETests() {
       })
       .map(pkg => pkg.name);
 
-    console.log(
+    console.error(
       `Found ${packagesWithE2E.length} packages with e2e tests:`,
       packagesWithE2E
     );
