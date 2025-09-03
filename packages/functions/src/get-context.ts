@@ -1,8 +1,10 @@
 import { RuntimeCache } from './cache/types';
+import { InvalidateApi } from './invalidate';
 
 type Context = {
   waitUntil?: (promise: Promise<unknown>) => void;
   cache?: RuntimeCache;
+  invalidate?: InvalidateApi;
   headers?: Record<string, string>;
 };
 
